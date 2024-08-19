@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>music-streaming app</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        body{
+            min-height: 100%;
+        }
+        ::-webkit-scrollbar-track{
+            display: none;
+        }
+        ::-webkit-scrollbar 
+        {
+            width: 10px;
+            background-color: #29263f;
+        }
+        ::-webkit-scrollbar-thumb{
+            background-color: #807ca1;
+            border-radius: 10px;
+        }
+        #container{
+            background-color:#29263f ;
+            display: flex;
+            flex-direction: row;
+            
+        }
+        #container>nav{
+            height: 150vh;
+            background-color: #2f2b45;
+
+        }
+        .song-profile>div{
+            display: flex;
+            flex-direction:column;
+            justify-content:space-between;
+        }
+        .song-profile{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .song-profile img{
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+        }
+        .song-profile p{
+            color: #ddddde;
+            font-size: 20px;
+        }
+        .song-profile span{
+            color: #807ca1;
+            font-size: 15px;
+
+        }
+        footer{
+            width: 100vw;
+            height: 70px;
+            position: fixed;
+            bottom: 0;
+            background-color: #1d1b2d;
+            display: flex;
+            flex-direction:row;
+            align-items: center;
+            justify-content:space-evenly;
+        }
+        #music-controls::-webkit-media-controls-panel {
+            background-color: #1d1b2d;
+            border-radius: 50px;
+        }
+        #music-controls::-webkit-media-controls-mute-button ,#music-controls::-webkit-media-controls-play-button{
+            background-color: #b0acd5;
+            border-radius: 50px;
+        }
+        #music-controls::-webkit-media-controls-timeline{
+            background-color: #b0acd5;
+            border-radius:50px;
+            margin-inline: 30px;
+        }
+        #music-controls{
+            width: 50vw;
+        }
+        #music-controls::-webkit-media-controls-timeline-container ,#music-controls::-webkit-media-controls-current-time-display ,#music-controls::-webkit-media-controls-time-remaining-display{
+            color: #b0acd5;
+        }
+        #container div{
+            margin-left: 20px ;
+        }
+        #container #branding{
+            margin-block: 30px;
+            margin-inline: 25px;
+        }
+        #container #branding h5{
+            font-weight:bold ;
+            color: #7c779d;
+            margin-top: 50px;
+        }
+        #container>nav li{
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        #container>nav i{
+            width: 25px;
+        }
+        #main-content header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 0.2px solid #7c779d;
+        }
+        header #menubar{
+            display: flex;
+            flex-direction: row;
+            text-decoration:none;
+        }
+        header #menubar li{
+            list-style-type:none;
+            padding: 0px 20px;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #807ca1;
+        }
+        header #menubar a.active{
+            border-bottom: 3px solid white;
+            
+        }
+        header #menubar a.active li{
+            color: white;
+            font-size: 17px;
+        }
+        header #userarea{
+            display:flex;
+            flex-direction: row;
+            text-align: right;
+            align-items: center;
+
+        }
+        header #menubar a{
+            text-decoration: none;
+            font-size: 15px;
+            padding: 30px 0px;
+            font-weight:bold ;
+            
+        }
+        #container i button{
+            background-color: transparent;
+            padding: 10px;
+            margin-top: 30px;
+            border-color: #e8e8ef;
+            border-radius: 50px;
+            border-style:dotted;
+        }
+        #container>nav a{
+            padding: 10px;
+            display: block;
+            padding:5px;
+            text-decoration: none;
+        }
+        #main-content{
+            width: 100vw;
+        }
+        header #userinfo{
+            position: relative;
+        }
+        header .dropdown-btn{
+            background-color: transparent;
+            border:none;
+            cursor:pointer;
+            color:#807ca1;
+        }
+        header .dropdown-btn i{
+            margin-left: 5px;
+        }
+        .dropdown:hover .dropdown-content{
+            display: block;
+        }
+        header .dropdwn{
+            position: relative;
+        }
+        header .dropdown-content{
+            display: none;
+            position: absolute;
+            right: 30px;
+            top: 60px;
+            background-color:#7873a7 ;
+            border-radius: 15px;
+            padding: 5px;    
+        }
+        header .dropdown-content a{
+            display: block;
+            padding: 10px 30px;
+            text-decoration: none;
+        }
+        header .dropdown-content li{
+            list-style-type: none;
+        }
+        .hero{
+            position: relative;
+            margin-top: 10px;
+            margin-left: 0px;
+            
+        }
+        .hero img{
+            border-bottom: 2px solid #ddddde;
+            border-radius: 20px;
+            width: 55vw;
+            height: 50vh;
+            background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(104, 93, 161));
+        }
+        .top{
+            position: absolute;
+            top: 8px;
+            left: 16px;
+        }
+        .next{
+            position: absolute;
+            top: 28px;
+            left: 16px;
+        }
+        .next2{
+            position :absolute;
+            top:50px;
+            left: 16px;
+            color: white ;
+            opacity:25%;
+            
+        }
+        .lishen{
+            position: absolute;
+            left: 16px;
+            top:85px;
+        }
+        
+        .hero button{
+            background-color:rgb(177, 141, 197);
+            color: #1d1b2d;
+            padding: 10px;
+            border:none;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+        .hero button i{
+            background-color: transparent;
+            color: #1d1b2d;
+            opacity: 50%;
+            
+        }
+        .but{
+            position: absolute;
+            top:85px;
+            left:110px;
+        }
+        .hero span{
+            position: absolute;
+            left:16px;
+            top:125px;
+            font-size: small;
+            color:#ddddde;
+        }
+        .hero h3{
+            opacity: 50%;
+            color: #e9e8ef;
+        }
+        .hero h1{
+            font-size: larger;
+            color:#b484da;
+        }
+        .section-music-list div img{
+            width: 150px;
+            display: flex;
+            flex-direction:row;
+        }
+        .section-music-list h4{
+            position: relative;
+            left: 16px;
+            top:8px;
+            color: #7873a7;
+
+        }
+        .section-music-list a{
+            position:relative;
+            left: 600px;
+            text-decoration: none;
+            color: #7873a7;
+        }
+        .list-items{
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            position: relative;
+            right: 30px;
+        }
+        .section-music-list2 img{
+            width: 150px;
+        }
+        .list-items1{
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            position: relative;
+            right: 30px;
+
+        }
+        .section-music-list2 h4{
+            position: relative;
+            left: 16px;
+            top:16px;
+            color: #7873a7;
+        }
+        .section-music-list2 a{
+            position:absolute;
+            right: 480px;
+            top:688px;
+            text-decoration: none;
+            color: #7873a7;
+        }
+        .list-item img{
+            border: none;
+            border-radius: 20px;
+        }
+        .list-item p{
+            font-size: smaller;
+            display: flex;
+        }
+        .list-item span{
+            font-size: smaller;
+            position: relative;
+            left: 100px;
+            bottom: 17px;
+        }
+        aside{
+            position: relative;
+            left: 820px;
+            bottom: 770px;
+        }
+        #menu{
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: justify;
+        }
+        @media screen {
+            
+        }
+
+    </style>
+</head>
+<body>
+    <section id="container">
+        <nav>
+            <div id="branding">
+                <img src="./z (2).png" width="150px">
+            <div id="menu">
+                <h5>MENU</h5>
+                <a href="/external.css"><li class="active"><i class="fa-sharp fa-solid fa-music"></i>Explore</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-brands fa-soundcloud"></i>Geners</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-compact-disc"></i>Artist</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-microphone-lines"></i>Albums</li></a>
+            </div>
+            <div id="library">
+                <h5>LIBRARY</h5>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-clock"></i>Recent</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-compact-disc"></i>Albums</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-heart"></i>Favorites</li></a>
+            </div>
+            <div id="playlist">
+                <h5>PLAYLIST</h5>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-headphones"></i>Good Vibes</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-headphones"></i>Best Jazz</li></a>
+                <a href="/external.css"><li><i class="fa-sharp fa-solid fa-headphones"></i>Party</li></a>
+                <i><button><i class="fa-solid fa-plus"></i>Create new</button></i>
+            </div>
+        </nav>
+        <section id="main-content">
+            <header>
+                <nav id="menubar">
+                    <a href="#" class="active"><li >Music</li></a>
+                    <a href="#"><li>Tool</li></a>
+                    <a href="#"><li>NFT</li></a>
+                    <a href="#"><li>Launchpool/launchpad</li></a>
+                    <a href="#"><li>Work with us</li></a>
+                </nav>
+                <div id="userarea">
+                    <div id="user-avatar">
+                        <span>Username</span>
+                            <div class="dropdown">
+                                <button class="dropdown-btn">User Id<i class="fa-solid fa-circle-chevron-down"></i></button>
+                                <div class="dropdown-content">
+                                    <li><a href="#">Profile</a></li>
+                                    <li><a href="#">Account</a></li>
+                                    <li><a href="#">Setting</a></li>
+                                    <li><a href="#">Log-out</a></li>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="./6596121.png" width="75"/>
+                    </div>
+            </header>
+            <section id="music-area">
+                <main>
+                    <div class="hero">
+                        <img src="./gettyimages-1242929090-612x612-removebg-preview.png" width="500px">
+                        <h3 class="top">Top Hiting List</h3>
+                        <h1 class="next">ALONE</h1>
+                        <h2 class="next2">Christopher Comstock</h2>
+                        <button class="lishen"><b>Listen Now</b></button>
+                        <button class="but"><i class="fa-solid fa-heart"></i></button>
+                        <span>00 M Streaming</span>
+                    </div>
+                    <div class="section-music-list">
+                        <h4>Top Artist</h4>
+                        <a href="#">See all</a>
+                        <div class="list-items">
+                            <div class="list-item">
+                                <img src="./young-caucasian-musician-performer-singing-dancing-neon-light-gradient_155003-43064.avif" height="150px">
+                                <p>Sheeran</p>
+                                <span>000 views</span>
+                            </div>
+                            <div class="list-item">
+                                <img src="./top-10-english-singers1.jpg" height="150px">
+                                <p>Ed Sheeran</p>
+                                <span>000 views</span>
+                            </div>
+                            <div class="list-item">
+                                <img src="./top-10-english-singers2.jpg" height="150px">
+                                <p>Taylor Swift</p>
+                                <span>000 views</span>
+                            </div>
+                            <div class="list-item">
+                                <img src="./top-10-english-singers3.jpg" height="150px">
+                                <p>Dua Lipa</p>
+                                <span>000 views</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-music-list2">
+                        <h4>New hits</h4>
+                        <a href="#">See all</a>
+                        <div class="list-items1">
+                            <div class="list-item">
+                                <img src="./6596121.png">
+                                <p>artist name</p>
+                                <span>000 views</span>
+                            </div>
+                            <div class="list-item">
+                                <img src="./6596121.png">
+                                <p>artist name</p>
+                                <span>000 views</span>
+                            </div>
+                            <div class="list-item">
+                                <img src="./6596121.png">
+                                <p>artist name</p>
+                                <span>000 views</span>
+                            </div>
+                            <div class="list-item">
+                                <img src="./6596121.png">
+                                <p>artist name</p>
+                                <span>000 views</span>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <aside>
+                    <h4 style="position: relative;left: 50px; ">Hot boost</h4>
+                    <div id="song-list-item"></div>
+                </aside>
+            </section>
+        </section>
+    <footer id="music-player">
+        <div class="song-profile">
+            <img src="./young-caucasian-musician-performer-singing-dancing-neon-light-gradient_155003-43064.avif" width="125">
+            <div>
+                <p>song name</p>
+                <span>song artist</span>
+            </div>
+        </div>
+                <audio id="music-controls" controls>
+                    <source src="./file_example_MP3_700KB.mp3"/>
+                </audio>
+            <i class="fa-regular fa-heart"></i>
+    </footer>
+    <script src="https://kit.fontawesome.com/ab4d8a8ce6.js" crossorigin="anonymous"></script>"
+    <script>
+        for(let i=0;i<=10;i++){
+        document.getElementById("song-list-item").innerHTML =  document.getElementById("song-list-item").innerHTML + `
+            <div id="song-list-item">
+                <div class="song-profile">
+                    <img src="./il_794xN.6166019012_6hqx.avif"/>
+                    <div>
+                        <p>fein</p>
+                        <span>Travis scott</span>
+                    </div>
+                </div>
+                <div id="play btn">
+                    <span id="underlay-circle">
+                        <i class="fa-solid fa-play"></i>
+                    </span>
+                </div>
+            </div>
+        `;
+        }
+    </script>
+</body>
+
+</html>
